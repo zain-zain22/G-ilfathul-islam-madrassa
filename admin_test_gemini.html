@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>ടെസ്റ്റ് പാനൽ – Gmadrassa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <h1 id="ttl">മദ്രസ മാനേജർ – അഡ്മിൻ (Gmadrassa Test)</h1>
+  <div class="warn-banner">
+    ⚠ ഡ്യൂപ്ലിക്കേഷൻ ടെസ്റ്റ് പാനൽ – ഇതിൽ "എല്ലാ ഡാറ്റയും മായ്ക്കുക" ഉണ്ട്. ഇത് ബന്ധിപ്പിച്ച Sheet-നെയും ബാധിക്കും.
+  </div>
+  <div class="mu" id="sv"></div>
+
+  <div id="gate" class="card">
+    <b>🔒 അഡ്മിൻ പ്രവേശനം</b>
+    <label>PIN / പാസ്‌വേഡ്
+      <input id="pin" type="password" autocomplete="current-password" onkeydown="if(event.key=='Enter')login()">
+    </label>
+    <p><button class="pri" onclick="login()">പ്രവേശിക്കുക</button></p>
+  </div>
+
+  <div id="app" style="display:none"></div>
+  <div id="print"></div>
+  <div id="pdf_stage"></div>
+
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwS0tjp0RTDft5fprVAKWMWQ9OwSfrOhZM5Jw9vgLjN9L0cbLEEfcRFxR22i9LINkBeKg/exec';
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
