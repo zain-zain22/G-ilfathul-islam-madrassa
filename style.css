@@ -1,0 +1,392 @@
+:root {
+  --bg: #eef3ef;
+  --sf: #ffffff;
+  --tx: #17251e;
+  --mu: #58685f;
+  --ac: #17694a;
+  --ac2: #e1f0e8;
+  --bd: #d3ddd6;
+  --rd: #b3261e;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121a16;
+    --sf: #1b2621;
+    --tx: #e8efe9;
+    --mu: #9bb0a4;
+    --ac: #5fc79a;
+    --ac2: #22372d;
+    --bd: #33463c;
+    --rd: #ff8a80;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #121a16;
+  --sf: #1b2621;
+  --tx: #e8efe9;
+  --mu: #9bb0a4;
+  --ac: #5fc79a;
+  --ac2: #22372d;
+  --bd: #33463c;
+  --rd: #ff8a80;
+}
+
+html, body {
+  margin: 0;
+  font-size: 16px;
+  background: var(--bg);
+  color: var(--tx);
+  font-family: 'Noto Sans Malayalam', system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+body {
+  padding: 0 12px 40px;
+  max-width: 960px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 21px;
+  margin: 0 -12px 8px;
+  padding: 18px 16px 16px;
+  background: var(--ac);
+  color: var(--bg);
+  border-radius: 0 0 22px 22px;
+}
+
+h2 {
+  font-size: 18px;
+  margin: 20px 0 8px;
+}
+
+.warn-banner {
+  background: #b3261e;
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin: 8px 0;
+  font-weight: 600;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tabs button {
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 10px 16px;
+}
+
+button, select, input, textarea {
+  font: inherit;
+  color: var(--tx);
+}
+
+button {
+  border: 1px solid var(--bd);
+  background: var(--sf);
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  min-height: 44px;
+}
+
+button.on, button.pri {
+  background: var(--ac);
+  color: #ffffff;
+  border-color: var(--ac);
+}
+
+button.sm {
+  padding: 4px 9px;
+  font-size: 13px;
+  min-height: 34px;
+}
+
+button.danger {
+  background: #b3261e;
+  color: #ffffff;
+  border-color: #b3261e;
+}
+
+a.wa-btn {
+  display: inline-block;
+  text-decoration: none;
+  background: #1f7a4c;
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+a.call-btn {
+  display: inline-block;
+  text-decoration: none;
+  border: 1px solid var(--bd);
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.card {
+  background: var(--sf);
+  border: 1px solid var(--bd);
+  border-radius: 18px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--mu);
+  margin-top: 8px;
+}
+
+label.chk-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--tx);
+}
+
+input[type="checkbox"].chk-auto {
+  width: auto;
+  min-height: auto;
+}
+
+input, select, textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid var(--bd);
+  border-radius: 12px;
+  background: var(--sf);
+  min-height: 44px;
+}
+
+.g {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  padding: 12px 6px;
+  font-size: 16px;
+  border-bottom: 1px solid var(--bd);
+  flex-wrap: wrap;
+}
+
+.row b {
+  min-width: 38px;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 10px;
+  background: var(--ac2);
+  color: var(--ac);
+}
+
+.row.ab b {
+  background: var(--rd);
+  color: #ffffff;
+}
+
+.row.ab {
+  color: var(--rd);
+  font-weight: 600;
+  background: rgba(179, 38, 30, 0.08);
+  border-radius: 10px;
+}
+
+.row.left-stu {
+  opacity: 0.65;
+}
+
+.mu {
+  color: var(--mu);
+  font-size: 13px;
+}
+
+.warn {
+  color: var(--rd);
+}
+
+.stat {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stat div {
+  flex: 1;
+  min-width: 90px;
+  background: var(--ac2);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.stat b {
+  font-size: 22px;
+  display: block;
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+/* രജിസ്റ്ററുകൾ: കള്ളികൾ താഴോട്ട് വലുപ്പം കൂടും; അടുത്ത കള്ളിയിലേക്ക് പോകില്ല */
+table.reg-tbl {
+  border-collapse: collapse;
+  font-size: 10px;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table.reg-tbl th,
+table.reg-tbl td {
+  border: 1px solid #333;
+  padding: 3px 2px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  overflow: visible;
+  height: auto;
+  line-height: 1.25;
+}
+
+table.reg-tbl th.sn,
+table.reg-tbl td.sn {
+  width: 24px;
+  padding: 2px 1px;
+}
+
+.sig-cell {
+  padding: 2px 1px;
+  vertical-align: middle;
+  min-height: 28px;
+}
+
+.sig-tilt {
+  display: inline-block;
+  transform: rotate(-16deg);
+  transform-origin: center center;
+  white-space: nowrap;
+  font-size: 7.5px;
+  font-weight: 600;
+  line-height: 1.05;
+  padding: 2px 0;
+}
+
+.sig-tilt img {
+  height: 15px;
+  max-width: 32px;
+  display: block;
+  margin: 0 auto;
+}
+
+.sig-canvas {
+  width: 100%;
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  background: #ffffff;
+  touch-action: none;
+}
+
+#print {
+  display: none;
+}
+
+#pdf_stage {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #ffffff;
+  color: #000000;
+  overflow: auto;
+  padding: 8px;
+  display: none;
+}
+
+@media print {
+  #pdf_stage {
+    display: none !important;
+  }
+
+  html, body {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  body > *:not(#print) {
+    display: none !important;
+  }
+
+  #print {
+    display: block;
+    color: #000000;
+    background: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #print.p-portrait table.reg-tbl {
+    width: 100% !important;
+    table-layout: auto;
+    font-size: 10px;
+  }
+
+  #print.p-landscape table.reg-tbl {
+    width: 100% !important;
+    table-layout: fixed;
+    font-size: 8px;
+  }
+
+  #print.p-landscape td,
+  #print.p-landscape th {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    overflow: visible;
+    padding: 2px 2px;
+    height: auto;
+  }
+
+  #print.p-landscape .sig-tilt {
+    transform: rotate(-16deg);
+    font-size: 7px;
+  }
+
+  #print.p-landscape .sig-tilt img {
+    height: 14px;
+    max-width: 28px;
+  }
+
+  .tc-page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+}
