@@ -1,8 +1,3 @@
-/* =========================================================
-   മദ്രസ മാനേജർ – അഡ്മിൻ പാനൽ (app.js - ഭാഗം 1 / 2)
-   പുതിയ Backend (Gmadrassa) & GitHub Repo-യ്ക്ക് അനുയോജ്യമായത്
-   ========================================================= */
-
 const $ = s => document.querySelector(s);
 async function api(action, data) {
   const r = await fetch(API_URL, {
@@ -18,7 +13,6 @@ const MONTHS = ['ജനുവരി', 'ഫെബ്രുവരി', 'മാർ�
 const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const today = iso(new Date());
 
-// എല്ലാ സ്ഥലത്തും DD-MM-YYYY ഫോർമാറ്റിൽ തീയതി കാണിക്കാൻ
 const fmtD = d => {
   if (!d) return '';
   const s = String(d).trim();
@@ -185,7 +179,6 @@ async function login(p) {
 const reload = () => saving.then(() => login(PIN));
 function logout() { sessionStorage.removeItem('madrasa_pin'); location.reload(); }
 function go() { admin_(); }
-
 async function clearAll() {
   if (prompt('Sheet-ലെ എല്ലാ ഡാറ്റയും മായ്ക്കും (മുമ്പ് Drive-ൽ ബാക്കപ്പ് എടുക്കും). തുടരാൻ CLEAR എന്ന് ടൈപ്പ് ചെയ്യുക') !== 'CLEAR') return;
   st('മായ്ക്കുന്നു…');
@@ -292,7 +285,6 @@ async function pdf(v, name, up) {
   }
 }
 
-/* അഡ്മിൻ നാവിഗേഷൻ */
 const clsOn = (s, d) => { const h = s.hist; if (!h || !h.length) return s.classId; let c = h[0].c; for (const e of h) if (e.from <= d) c = e.c; return c; };
 const inC = (s, c, a, b) => clsOn(s, a) == c || clsOn(s, b) == c || (s.hist || []).some(e => e.c == c && e.from >= a && e.from <= b);
 let sub = { st: 'apps', te: 'mreg' };
@@ -316,7 +308,6 @@ function admin_() {
   $('#app').innerHTML = '<p><button class="sm" onclick="reload()">🔄 പുതുക്കുക</button> <button class="sm" onclick="logout()">🔒 പുറത്തുകടക്കുക</button></p>' + tabs(T) + (S[tab] ? '<div class="tabs">' + S[tab].map(([k, v]) => `<button class="sm ${sub[tab] == k ? 'on' : ''}" onclick="sub['${tab}']='${k}';go()">${v}</button>`).join('') + '</div>' : '') + '<div id="pg"></div>';
   ({ dash, apps, stu, tc: tcTab, calls: callsTab, clsprint: clsPrintTab, bonafide: bonafideTab, reg, attp, promo, mreg, sig, set })[S[tab] ? sub[tab] : tab]();
 }
-
 function dash() {
   const t = today, pend = db.classes.map(c => ({ c, p: pending(c.id) })).filter(x => x.p.length);
   const lng = [];
@@ -416,8 +407,6 @@ function approve(id) {
   delApp(id); save(); admin_();
 }
 function rej(id) { if (confirm('നിരസിക്കട്ടെ?')) { db.apps = db.apps.filter(x => x.id != id); delApp(id); save(); admin_(); } }
-
-/* കുട്ടികൾ + സെർച്ച് + വാട്സ്ആപ്പ് */
 function stu() {
   const q = (sel.stuQ || '').toLowerCase().trim();
   const cFilt = sel.stuClsFilter || '';
@@ -481,7 +470,6 @@ function leave(no) {
   if (h == '1') openTcForStu(no); else stu();
 }
 
-/* ---------- ഘട്ടം 2: വരാത്തവരെ വിളിക്കാനുള്ള ലിസ്റ്റ് ---------- */
 function callsTab() {
   const cId = sel.callCls || db.classes[0]?.id || '';
   const attDates = Object.keys(db.att)
@@ -518,8 +506,6 @@ function callsTab() {
     }).join('') : '<p class="mu">ഈ ക്ലാസിൽ അടുത്തിടെ ഹാജരില്ലാത്ത കുട്ടികളൊന്നുമില്ല.</p>'}
   </div>`;
 }
-
-/* ---------- ഘട്ടം 2: ക്ലാസ് ലിസ്റ്റ് പ്രിന്റ് / PDF ---------- */
 function clsPrintTab() {
   const cId = sel.cls || db.classes[0]?.id || '';
   const list = stuIn(cId);
@@ -545,7 +531,6 @@ function clsPrintTab() {
   </div>`;
 }
 
-/* ---------- ഘട്ടം 2: പഠിക്കുന്നു എന്ന സർട്ടിഫിക്കറ്റ് (Bonafide) ---------- */
 function bonafideTab() {
   const active = db.students.filter(s => !s.left).sort((a, b) => a.no - b.no);
   const curId = sel.bonStu || active[0]?.no || '';
@@ -584,8 +569,6 @@ function bonafideTab() {
     <div class="card">${html}</div>
   </div>`;
 }
-
-/* പ്രിൻ്റ് & രജിസ്റ്ററുകൾ */
 function reg() {
   const H = ['ക്രമ നമ്പർ', 'പ്രവേശന നമ്പർ', 'പേര്, ഇനീഷ്യൽ', 'വീട്ടുപേര്', 'പിതാവ്/മാതാവ്', 'രക്ഷിതാവ്, ഫോൺ', 'ബന്ധം', 'ജോലി, മേൽവിലാസം', 'ജനന തീയതി', 'ചേർന്ന ക്ലാസ്', 'ചേർന്ന തീയതി', 'അടയാളം', 'മുമ്പ് പഠിച്ച മദ്രസ/TC', 'മുൻ നമ്പർ', 'വിട്ട ക്ലാസ്', 'വിട്ട തീയതി', 'വിടാനുള്ള കാരണം', 'ചേരുന്ന മദ്രസ', 'കൊടുത്ത TC', 'സദറിൻ്റെ ഒപ്പ്', 'റിമാർക്സ്'];
   const L = regList().sort((a, b) => a.no - b.no);
@@ -621,12 +604,6 @@ function attp() {
   window._att = tbl;
   $('#pg').innerHTML = `<div class="g"><label>ക്ലാസ്<select onchange="sel.cls=this.value;attp()">${opts(db.classes, c)}</select></label></div>${rng('attp')}<div></div><p class="mu">മദ്രസയുടെ പേരും നമ്പറും ക്രമീകരണത്തിൽ നൽകുക. ("മുൻ മാസം" ${esc(fmtD(yrStartBound))} മുതൽ കണക്കാക്കുന്നു)</p>${btns('_att', 'attendance-register')}<div class="scroll card">${tbl}</div>`;
 }
-/* =========================================================
-   മദ്രസ മാനേജർ – അഡ്മിൻ പാനൽ (app.js - ഭാഗം 2 / 2)
-   ഭാഗം 1-ന്റെ തുടർച്ചയായി app.js-ൽ ചേർക്കുക
-   ========================================================= */
-
-/* മുഅല്ലിം രജിസ്റ്റർ */
 const COURSES = ['ഫൈനൽ', 'സെക്കൻഡറി', 'പ്രിലിമിനറി', 'ഹിസ്ബ്', 'ട്രെയിനിങ്', 'ITTC', 'ഹത്തുനസ്ഹ്', 'സമഗ്ര ട്രെയിനിങ്', 'ഇൻ സർവീസ്', 'പ്രത്യേക ബഹുമതി'];
 function svc(t) {
   if (!t.joined) return '';
@@ -682,7 +659,6 @@ function sig() {
   $('#pg').innerHTML = `${rng('sig')}<p class="mu">തുടക്കത്തിൽ ക്രമ നമ്പറും ഓരോ ദിവസവും രണ്ട് വരിയും (സെക്ഷൻ 1, 2) – ആകെ ${n} ദിവസം കാണാം. ഒപ്പുകൾ ചെരിച്ച് ക്രമീകരിച്ചിട്ടുണ്ട്.</p>${btns('_sg', 'signature-register')}<div class="scroll card">${tbl}</div>`;
 }
 
-/* ക്രമീകരണം + പഴയ ഹാജർ ഒതുക്കൽ */
 function set() {
   const sadarOpts = '<option value="">-- തിരഞ്ഞെടുക്കുക --</option>' + db.teachers.map(t => `<option value="${t.id}" ${t.id == db.sadarId ? 'selected' : ''}>${esc(t.name)}</option>`).join('');
   const attTotal = Object.keys(db.att || {}).length;
@@ -782,7 +758,6 @@ function readmit(no) {
   save();
   stu();
 }
-
 /* ---------- TC വിഭാഗം ---------- */
 const MEN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const ORD = ['', 'First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth', 'Eleventh', 'Twelfth', 'Thirteenth', 'Fourteenth', 'Fifteenth', 'Sixteenth', 'Seventeenth', 'Eighteenth', 'Nineteenth', 'Twentieth', 'Twenty First', 'Twenty Second', 'Twenty Third', 'Twenty Fourth', 'Twenty Fifth', 'Twenty Sixth', 'Twenty Seventh', 'Twenty Eighth', 'Twenty Ninth', 'Thirtieth', 'Thirty First'];
