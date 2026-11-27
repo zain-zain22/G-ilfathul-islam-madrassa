@@ -602,14 +602,14 @@ function reg() {
   const vStyle = `
     <style>
       @page { size: landscape; margin: 8mm; }
-      .adm-v-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9px; color: #000; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #111 !important; padding: 3px 1px; text-align: center; vertical-align: middle; box-sizing: border-box; overflow: hidden; }
-      .adm-v-tbl th.adm-num-th { height: 24px; font-size: 8.5px; background: #f2f4f3 !important; font-weight: bold; }
-      .adm-v-tbl th.adm-rot-th { height: 115px; background: #eef1f0 !important; }
-      .adm-v-wrap { display: inline-block; transform: rotate(-90deg); transform-origin: center center; width: 105px; max-width: 105px; white-space: normal; word-break: break-word; overflow-wrap: anywhere; font-size: 9px; line-height: 1.15; font-weight: bold; }
-      .adm-cell-container { display: flex; align-items: center; justify-content: center; height: 95px; width: 100%; overflow: hidden; }
-      .adm-v-text { display: inline-block; transform: rotate(-90deg); transform-origin: center center; width: 90px; max-width: 90px; white-space: normal; word-break: break-word; overflow-wrap: anywhere; font-size: 9.5px; line-height: 1.15; color: #000; }
-      .adm-row-tall { height: 95px; }
+      .adm-v-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9.5px; color: #000; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #111 !important; padding: 3px 1px; text-align: center; vertical-align: middle; box-sizing: border-box; }
+      .adm-v-tbl th.adm-num-th { height: 24px; font-size: 9px; background: #f2f4f3 !important; font-weight: bold; }
+      .adm-v-tbl th.adm-rot-th { height: 155px; background: #eef1f0 !important; overflow: hidden; }
+      .adm-v-wrap { display: inline-flex; flex-direction: column; justify-content: center; align-items: center; transform: rotate(-90deg); transform-origin: center center; min-width: 140px; max-height: 36px; white-space: normal; word-break: break-word; font-size: 9px; line-height: 1.15; font-weight: bold; color: #000; }
+      .adm-cell-container { display: flex; align-items: center; justify-content: center; height: 115px; width: 100%; overflow: hidden; }
+      .adm-v-text { display: inline-flex; flex-direction: column; justify-content: center; align-items: center; transform: rotate(-90deg); transform-origin: center center; min-width: 105px; max-height: 36px; white-space: normal; word-break: break-all; font-size: 9px; line-height: 1.15; color: #000; }
+      .adm-row-tall { height: 115px; }
       @media print {
         body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #000 !important; }
