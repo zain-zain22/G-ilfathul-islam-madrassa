@@ -581,7 +581,6 @@ function reg() {
     'റിമാർക്സ്'
   ];
 
-  // 21 കോളങ്ങൾക്കും ഉള്ളടക്കത്തിനനുസരിച്ചുള്ള കൃത്യമായ വീതി (ആകെ 100%)
   const W = [
     '3.2%', '3.8%', '6.8%',
     '5.5%', '6.2%', '6.8%',
@@ -694,20 +693,32 @@ function reg() {
       }
       .adm-v-tbl td,
       .adm-row-tall {
-        height: 120px;
+        height: 122px;
+      }
+      .adm-data-box {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 4px;
+        box-sizing: border-box;
+        overflow: hidden;
       }
       .adm-v-text {
         display: inline-block;
         width: 112px;
+        max-height: 34px;
         flex-shrink: 0;
         transform: rotate(-90deg);
         transform-origin: center center;
-        font-size: 9px;
+        font-size: 8.8px;
         font-weight: normal;
-        line-height: 1.18;
+        line-height: 1.15;
         white-space: normal;
+        overflow-wrap: anywhere;
         word-break: break-word;
-        text-align: center;
+        text-align: left;
         color: #000;
       }
       .adm-sign {
@@ -743,7 +754,7 @@ function reg() {
     const isLeft = !!L[ri].left;
     return `<tr class="adm-row-tall" style="${isLeft ? 'opacity:.75;background:#f4f4f4' : ''}">${r.map((c, ci) => {
       if (ci === 19) return `<td>${c}</td>`;
-      return `<td><div class="adm-rot-box"><span class="adm-v-text">${c ?? ''}</span></div></td>`;
+      return `<td><div class="adm-data-box"><span class="adm-v-text">${c ?? ''}</span></div></td>`;
     }).join('')}</tr>`;
   }).join('')}</tbody>`;
 
