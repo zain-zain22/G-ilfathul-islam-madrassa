@@ -573,17 +573,63 @@ function reg() {
   const H = ['ക്രമ നമ്പർ', 'പ്രവേശന നമ്പർ', 'പേര്, ഇനീഷ്യൽ', 'വീട്ടുപേര്', 'പിതാവ്/മാതാവ്', 'രക്ഷിതാവ്, ഫോൺ', 'ബന്ധം', 'ജോലി, മേൽവിലാസം', 'ജനന തീയതി', 'ചേർന്ന ക്ലാസ്', 'ചേർന്ന തീയതി', 'അടയാളം', 'മുമ്പ് പഠിച്ച മദ്രസ/TC', 'മുൻ നമ്പർ', 'വിട്ട ക്ലാസ്', 'വിട്ട തീയതി', 'വിടാനുള്ള കാരണം', 'ചേരുന്ന മദ്രസ', 'കൊടുത്ത TC', 'സദറിൻ്റെ ഒപ്പ്', 'റിമാർക്സ്'];
   const L = regList().sort((a, b) => a.no - b.no);
   const rows = L.map((s, idx) => {
-    const sSigCell = s.sadarSig ? `<span class="sig-tilt"><img src="${s.sadarSig}" alt=""></span>` : '';
-    return [idx + 1, s.no, s.name, s.house, s.parent || '', (s.guardian || '') + ' ' + (s.phone || ''), s.rel, s.job, fmtD(s.dob), cls((s.hist && s.hist[0] || { c: s.classId }).c).name, fmtD(s.joined), s.mark, s.prev || '', s.prevNo || '', s.left?.cls || '', fmtD(s.left?.date || ''), s.left?.reason || '', s.left?.to || '', s.left?.tc || '', sSigCell, s.left ? (s.left.how || 'വിടുതൽ ചെയ്തു') : ''];
+    const sSigCell = s.sadarSig ? `<img src="${s.sadarSig}" alt="" style="max-height:42px;max-width:22px;display:block;margin:0 auto">` : '';
+    return [
+      idx + 1,
+      s.no,
+      s.name,
+      s.house,
+      s.parent || '',
+      (s.guardian || '') + (s.phone ? ' (' + s.phone + ')' : ''),
+      s.rel,
+      s.job,
+      fmtD(s.dob),
+      cls((s.hist && s.hist[0] || { c: s.classId }).c).name,
+      fmtD(s.joined),
+      s.mark,
+      s.prev || '',
+      s.prevNo || '',
+      s.left?.cls || '',
+      fmtD(s.left?.date || ''),
+      s.left?.reason || '',
+      s.left?.to || '',
+      s.left?.tc || '',
+      sSigCell,
+      s.left ? (s.left.how || 'വിടുതൽ ചെയ്തു') : ''
+    ];
   });
-  const numRow = `<tr>${H.map((_, i) => `<th class="${i === 0 ? 'sn' : ''}" style="background:#f5f7f6">${i + 1}</th>`).join('')}</tr>`;
-  const titleRow = `<tr>${H.map((h, i) => `<th class="${i === 0 ? 'sn' : (i === 7 ? 'wrap-col' : '')}">${h}</th>`).join('')}</tr>`;
-  const thead = `<thead>${numRow}${titleRow}</thead>`;
-  const tbl = `<div style="text-align:center;margin-bottom:6px"><b style="font-size:14px">ISLAMIC EDUCATIONAL BOARD</b><br><b>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്</b><br><b>വിദ്യാർത്ഥി പ്രവേശന രജിസ്റ്റർ (ADMISSION REGISTER)</b> ${db.madrasa ? '– ' + esc(db.madrasa) : ''}</div><table class="reg-tbl" style="width:100%">${thead}<tbody>${rows.map((r, ri) => `<tr style="${L[ri].left ? 'opacity:.65;background:#f4f4f4' : ''}">${r.map((c, ci) => `<td class="${ci === 0 ? 'sn' : (ci === 7 ? 'wrap-col' : '')}">${c ?? ''}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
-  window._reg = tbl;
-  $('#pg').innerHTML = `<p class="mu">തുടക്കത്തിൽ ക്രമ നമ്പറും ഏറ്റവും മുകളിൽ കള്ളി നമ്പറുകളും നൽകിയിട്ടുണ്ട്. ഏത് കള്ളിയിലും എഴുത്ത് താഴോട്ട് വലുപ്പം കൂടും; അടുത്ത കള്ളിയിലേക്ക് കയറില്ല.</p>${regF()}${btns('_reg', 'admission-register')}<div class="scroll card">${tbl}</div>`;
-}
 
+  const vStyle = `
+    <style>
+      .adm-v-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 8.5px; color: #000; background: #fff; }
+      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #222; padding: 3px 1px; text-align: center; vertical-align: middle; overflow: hidden; word-wrap: break-word; }
+      .adm-v-tbl th.adm-num-th { height: 22px; font-size: 8px; background: #f2f4f3; }
+      .adm-v-tbl th.adm-rot-th { height: 92px; vertical-align: bottom; padding-bottom: 4px; background: #eef1f0; }
+      .adm-v-wrap { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; font-size: 8px; line-height: 1.1; max-height: 86px; }
+      .adm-v-cell { writing-mode: vertical-rl; transform: rotate(180deg); display: inline-block; max-height: 110px; font-size: 8px; line-height: 1.15; padding: 2px 0; }
+      .adm-sign-row { display: flex; justify-content: space-between; margin-top: 14px; font-size: 11px; color: #000; }
+    </style>
+  `;
+
+  const numRow = `<tr>${H.map((_, i) => `<th class="adm-num-th">${i + 1}</th>`).join('')}</tr>`;
+  const titleRow = `<tr>${H.map(h => `<th class="adm-rot-th"><span class="adm-v-wrap">${esc(h)}</span></th>`).join('')}</tr>`;
+  const thead = `<thead>${numRow}${titleRow}</thead>`;
+  const bodyHtml = `<tbody>${rows.map((r, ri) => {
+    const isLeft = !!L[ri].left;
+    return `<tr style="${isLeft ? 'opacity:.7;background:#f4f4f4' : ''}">${r.map((c, ci) => {
+      const content = (ci === 19 && String(c || '').includes('<img'))
+        ? c
+        : `<span class="adm-v-cell">${c ?? ''}</span>`;
+      return `<td>${content}</td>`;
+    }).join('')}</tr>`;
+  }).join('')}</tbody>`;
+
+  const signFooter = `<div class="adm-sign-row"><span>ക്ലാസ് മുഅല്ലിം: ................</span><span>സദർ മുഅല്ലിം: ................</span><span>മുഫത്തീശ്: ................</span></div>`;
+
+  const tbl = `${vStyle}<div style="text-align:center;margin-bottom:6px"><b style="font-size:14px">ISLAMIC EDUCATIONAL BOARD</b><br><b>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്</b><br><b>വിദ്യാർത്ഥി പ്രവേശന രജിസ്റ്റർ (ADMISSION REGISTER)</b> ${db.madrasa ? '– ' + esc(db.madrasa) : ''}</div><div style="overflow-x:auto"><table class="adm-v-tbl">${thead}${bodyHtml}</table></div>${signFooter}`;
+  window._reg = tbl;
+  $('#pg').innerHTML = `<p class="mu">കള്ളികൾക്കുള്ളിലെ അക്ഷരങ്ങൾ തിരിച്ച് ക്രമീകരിച്ചിട്ടുണ്ട്; മെയിൻ ഹെഡിംഗും ഒപ്പിടാനുള്ള ഭാഗവും സാധാരണ നിലയിലാണ്.</p>${regF()}${btns('_reg', 'admission-register')}<div class="scroll card">${tbl}</div>`;
+}
 function attp() {
   const c = sel.cls, ms = sel.from, me = sel.to, days = rangeDays(ms, me), n = days.length, y = ms.slice(0, 4);
   if (!n || n > 31 || !c) { $('#pg').innerHTML = rng('attp') + '<p class="warn">1–31 ദിവസത്തെ തീയതി പരിധി തിരഞ്ഞെടുക്കുക.</p>'; return; }
@@ -597,10 +643,37 @@ function attp() {
   const avg = (p, w) => w ? (p / w).toFixed(1) : '-';
   const op = db.students.filter(s => clsOn(s, ms) == c && s.joined < ms && (!s.left || s.left.date >= ms)).length, nw = db.students.filter(s => clsOn(s, me) == c && s.joined >= ms && s.joined <= me).length, lf = db.students.filter(s => s.classId == c && s.left && s.left.date >= ms && s.left.date <= me).length;
   const N = n + 7;
-  const body = stList.map((s, i) => `<tr><td class="sn">${i + 1}</td><td>${s.no}</td><td style="text-align:left;min-width:75px">${esc(s.name)}</td>${days.map(d => { const a = rec(d); return `<td style="${sun(d) || a?.holiday ? 'background:#ddd' : ''}">${sun(d) || !a || a.holiday || s.joined > d || clsOn(s, d) != c ? '' : a.absent.includes(s.no) ? 'A' : '×'}</td>`; }).join('')}<td>${pm[i]}</td><td>${pp[i]}</td><td>${pm[i] + pp[i]}</td><td></td></tr>`).join('');
+
+  const attStyle = `
+    <style>
+      .att-custom-tbl { width: 100%; border-collapse: collapse; font-size: 9.5px; color: #000; background: #fff; }
+      .att-custom-tbl th, .att-custom-tbl td { border: 1px solid #222; padding: 3px 2px; text-align: center; vertical-align: middle; }
+      .att-custom-tbl th.att-sn, .att-custom-tbl td.att-sn { width: 28px; min-width: 28px; }
+      .att-custom-tbl th.att-adm, .att-custom-tbl td.att-adm { width: 34px; min-width: 34px; font-size: 8.5px; }
+      .att-custom-tbl th.att-name, .att-custom-tbl td.att-name { width: 125px; min-width: 110px; text-align: left; padding-left: 4px; font-weight: 600; }
+      .att-custom-tbl td.att-sig-rot { height: 56px; width: 20px; min-width: 20px; padding: 2px 1px; }
+      .att-sig-inner { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 8px; line-height: 1.05; max-height: 52px; }
+      .att-sig-inner img { max-height: 48px; max-width: 18px; display: block; margin: 0 auto; }
+    </style>
+  `;
+
+  const body = stList.map((s, i) => `<tr><td class="att-sn">${i + 1}</td><td class="att-adm">${s.no}</td><td class="att-name">${esc(s.name)}</td>${days.map(d => { const a = rec(d); return `<td style="${sun(d) || a?.holiday ? 'background:#ddd' : ''}">${sun(d) || !a || a.holiday || s.joined > d || clsOn(s, d) != c ? '' : a.absent.includes(s.no) ? 'A' : '×'}</td>`; }).join('')}<td>${pm[i]}</td><td>${pp[i]}</td><td>${pm[i] + pp[i]}</td><td></td></tr>`).join('');
   const tot = days.map(d => { const a = rec(d); return `<td>${a && !a.holiday ? stList.filter(s => s.joined <= d && clsOn(s, d) == c).length - a.absent.length : ''}</td>`; }).join('');
-  const sg = days.map(d => { const a = rec(d); return `<td class="sig-cell">${sgn(a)}</td>`; }).join('');
-  const tbl = `<table class="reg-tbl" style="width:100%"><thead><tr><td colspan="${N}" style="text-align:center;border:none"><b style="font-size:15px">ISLAMIC EDUCATIONAL BOARD</b><br>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്<br><b>സ്റ്റുഡൻ്റ്സ് അറ്റൻഡൻസ് രജിസ്റ്റർ (STUDENTS ATTENDANCE REGISTER)</b><div style="display:flex;justify-content:space-between;flex-wrap:wrap;margin-top:6px"><span>മദ്രസ: ${esc(db.madrasa || '.........')}</span><span>നമ്പർ: ${esc(db.mno || '.........')}</span><span>ക്ലാസ്: ${esc(cls(c).name)}</span><span>${cls(c).sess == '1' ? 'സെക്ഷൻ 1' : 'സെക്ഷൻ 2'}</span><span>മാസം: ${lbl(ms, me)}</span><span>വർഷം: ${y}</span></div></td></tr><tr><th class="sn">ക്രമ നമ്പർ</th><th>പ്രവേശന നമ്പർ</th><th>പേര്</th>${days.map(d => `<th>${+d.slice(8)}</th>`).join('')}<th>ഈ മാസം</th><th>മുൻ മാസം</th><th>ആകെ</th><th>റിമാർക്സ്</th></tr></thead><tbody>${body}<tr><td colspan="3">ആകെ ഹാജർ</td>${tot}<td>${wM}</td><td>${wP}</td><td>${wT}</td><td style="font-size:8px">പ്രവൃത്തി ദിവസം</td></tr><tr><td colspan="3">മുഅല്ലിമിൻ്റെ ഒപ്പ്</td>${sg}<td>${avg(PM, wM)}</td><td>${avg(PP, wP)}</td><td>${avg(PT, wT)}</td><td style="font-size:8px">ശരാശരി</td></tr></tbody><tfoot><tr><td colspan="${N}" style="text-align:left;border:none;padding-top:6px"><div style="margin-bottom:4px">മാസാരംഭത്തിൽ കുട്ടികൾ: <b>${op}</b> &nbsp;|&nbsp; പുതുതായി ചേർന്നവർ: <b>${nw}</b> &nbsp;|&nbsp; ഈ മാസം വിട്ടവർ: <b>${lf}</b> &nbsp;|&nbsp; മാസാവസാനത്തിൽ: <b>${op + nw - lf}</b></div><div style="display:flex;justify-content:space-between;margin-top:14px;font-size:11px"><span>ക്ലാസ് മുഅല്ലിം: ................</span><span>സദർ മുഅല്ലിം: ................</span><span>മുഫത്തീശ്: ................</span></div></td></tr></tfoot></table>`;
+  const sg = days.map(d => {
+    const a = rec(d);
+    let content = '';
+    if (a) {
+      if (a.holiday) content = esc(a.holiday);
+      else {
+        const t = db.teachers.find(x => x.id == a.by) || {};
+        if (t.sig) content = `<img src="${t.sig}" alt="">`;
+        else content = esc((t.name || '').slice(0, 8));
+      }
+    }
+    return `<td class="att-sig-rot"><span class="att-sig-inner">${content}</span></td>`;
+  }).join('');
+
+  const tbl = `${attStyle}<table class="att-custom-tbl"><thead><tr><td colspan="${N}" style="text-align:center;border:none"><b style="font-size:15px">ISLAMIC EDUCATIONAL BOARD</b><br>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്<br><b>സ്റ്റുഡൻ്റ്സ് അറ്റൻഡൻസ് രജിസ്റ്റർ (STUDENTS ATTENDANCE REGISTER)</b><div style="display:flex;justify-content:space-between;flex-wrap:wrap;margin-top:6px"><span>മദ്രസ: ${esc(db.madrasa || '.........')}</span><span>നമ്പർ: ${esc(db.mno || '.........')}</span><span>ക്ലാസ്: ${esc(cls(c).name)}</span><span>${cls(c).sess == '1' ? 'സെക്ഷൻ 1' : 'സെക്ഷൻ 2'}</span><span>മാസം: ${lbl(ms, me)}</span><span>വർഷം: ${y}</span></div></td></tr><tr><th class="att-sn">ക്രമ നമ്പർ</th><th class="att-adm">നമ്പർ</th><th class="att-name">കുട്ടിയുടെ പേര്</th>${days.map(d => `<th>${+d.slice(8)}</th>`).join('')}<th>ഈ മാസം</th><th>മുൻ മാസം</th><th>ആകെ</th><th>റിമാർക്സ്</th></tr></thead><tbody>${body}<tr><td colspan="3">ആകെ ഹാജർ</td>${tot}<td>${wM}</td><td>${wP}</td><td>${wT}</td><td style="font-size:8px">പ്രവൃത്തി ദിവസം</td></tr><tr><td colspan="3">മുഅല്ലിമിൻ്റെ ഒപ്പ്</td>${sg}<td>${avg(PM, wM)}</td><td>${avg(PP, wP)}</td><td>${avg(PT, wT)}</td><td style="font-size:8px">ശരാശരി</td></tr></tbody><tfoot><tr><td colspan="${N}" style="text-align:left;border:none;padding-top:6px"><div style="margin-bottom:4px">മാസാരംഭത്തിൽ കുട്ടികൾ: <b>${op}</b> &nbsp;|&nbsp; പുതുതായി ചേർന്നവർ: <b>${nw}</b> &nbsp;|&nbsp; ഈ മാസം വിട്ടവർ: <b>${lf}</b> &nbsp;|&nbsp; മാസാവസാനത്തിൽ: <b>${op + nw - lf}</b></div><div style="display:flex;justify-content:space-between;margin-top:14px;font-size:11px"><span>ക്ലാസ് മുഅല്ലിം: ................</span><span>സദർ മുഅല്ലിം: ................</span><span>മുഫത്തീശ്: ................</span></div></td></tr></tfoot></table>`;
   window._att = tbl;
   $('#pg').innerHTML = `<div class="g"><label>ക്ലാസ്<select onchange="sel.cls=this.value;attp()">${opts(db.classes, c)}</select></label></div>${rng('attp')}<div></div><p class="mu">മദ്രസയുടെ പേരും നമ്പറും ക്രമീകരണത്തിൽ നൽകുക. ("മുൻ മാസം" ${esc(fmtD(yrStartBound))} മുതൽ കണക്കാക്കുന്നു)</p>${btns('_att', 'attendance-register')}<div class="scroll card">${tbl}</div>`;
 }
