@@ -601,15 +601,15 @@ function reg() {
 
   const vStyle = `
     <style>
-      @page { size: landscape; margin: 10mm; }
-      .adm-v-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9px; color: #000; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #111 !important; padding: 4px 2px; text-align: center; vertical-align: middle; box-sizing: border-box; }
-      .adm-v-tbl th.adm-num-th { height: 26px; font-size: 8.5px; background: #f2f4f3 !important; font-weight: bold; }
-      .adm-v-tbl th.adm-rot-th { height: 135px; padding: 4px 1px; background: #eef1f0 !important; overflow: hidden; }
-      .adm-v-wrap { display: inline-block; transform: rotate(-90deg); transform-origin: center center; white-space: nowrap; font-size: 8.5px; line-height: 1.15; font-weight: bold; }
-      .adm-cell-container { display: flex; align-items: center; justify-content: center; height: 95px; width: 100%; overflow: hidden; }
-      .adm-v-text { display: inline-block; transform: rotate(-90deg); transform-origin: center center; white-space: nowrap; font-size: 8.5px; line-height: 1.15; color: #000; }
-      .adm-row-tall { height: 95px; }
+      @page { size: landscape; margin: 8mm; }
+      .adm-v-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 8.5px; color: #000; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #111 !important; padding: 3px 1px; text-align: center; vertical-align: middle; box-sizing: border-box; overflow: visible; }
+      .adm-v-tbl th.adm-num-th { height: 24px; font-size: 8px; background: #f2f4f3 !important; font-weight: bold; }
+      .adm-v-tbl th.adm-rot-th { height: 160px; padding: 4px 1px; background: #eef1f0 !important; }
+      .adm-v-wrap { display: inline-block; transform: rotate(-90deg); transform-origin: center center; width: 148px; max-width: 148px; white-space: normal; word-break: break-word; overflow-wrap: anywhere; font-size: 7.5px; line-height: 1.1; font-weight: bold; text-align: center; }
+      .adm-cell-container { display: flex; align-items: center; justify-content: center; min-height: 120px; width: 100%; }
+      .adm-v-text { display: inline-block; transform: rotate(-90deg); transform-origin: center center; width: 112px; max-width: 112px; white-space: normal; word-break: break-word; overflow-wrap: anywhere; font-size: 7.2px; line-height: 1.1; color: #000; text-align: center; }
+      .adm-row-tall { height: 120px; }
       @media print {
         body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #000 !important; }
