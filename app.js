@@ -603,20 +603,19 @@ function reg() {
     <style>
       @page { size: landscape; margin: 10mm; }
       .adm-v-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9px; color: #000; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #111 !important; padding: 5px 2px; text-align: center; vertical-align: middle; box-sizing: border-box; }
+      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #111 !important; padding: 4px 2px; text-align: center; vertical-align: middle; box-sizing: border-box; }
       .adm-v-tbl th.adm-num-th { height: 26px; font-size: 8.5px; background: #f2f4f3 !important; font-weight: bold; }
-      .adm-v-tbl th.adm-rot-th { height: 130px; vertical-align: bottom; padding-bottom: 8px; background: #eef1f0 !important; }
-      .adm-v-wrap { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; font-size: 9px; line-height: 1.2; font-weight: bold; max-height: 118px; }
-      .adm-cell-container { display: flex; align-items: center; justify-content: center; min-height: 75px; max-height: 115px; overflow: hidden; line-height: 1.25; font-size: 8.5px; }
-      .adm-v-text { writing-mode: vertical-rl; transform: rotate(180deg); width: 100%; text-align: right; }
-      .adm-row-tall { height: 85px; }
+      .adm-v-tbl th.adm-rot-th { height: 135px; padding: 4px 1px; background: #eef1f0 !important; overflow: hidden; }
+      .adm-v-wrap { display: inline-block; transform: rotate(-90deg); transform-origin: center center; white-space: nowrap; font-size: 8.5px; line-height: 1.15; font-weight: bold; }
+      .adm-cell-container { display: flex; align-items: center; justify-content: center; height: 95px; width: 100%; overflow: hidden; }
+      .adm-v-text { display: inline-block; transform: rotate(-90deg); transform-origin: center center; white-space: nowrap; font-size: 8.5px; line-height: 1.15; color: #000; }
+      .adm-row-tall { height: 95px; }
       @media print {
         body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #000 !important; }
       }
     </style>
   `;
-
   const numRow = `<tr>${H.map((_, i) => `<th class="adm-num-th">${i + 1}</th>`).join('')}</tr>`;
   const titleRow = `<tr>${H.map(h => `<th class="adm-rot-th"><span class="adm-v-wrap">${esc(h)}</span></th>`).join('')}</tr>`;
   const thead = `<thead>${numRow}${titleRow}</thead>`;
