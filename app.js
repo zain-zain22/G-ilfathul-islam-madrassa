@@ -570,10 +570,24 @@ function bonafideTab() {
   </div>`;
 }
 function reg() {
-  const H = ['ക്രമ നമ്പർ', 'പ്രവേശന നമ്പർ', 'പേര്, ഇനീഷ്യൽ', 'വീട്ടുപേര്', 'പിതാവ്/മാതാവ്', 'രക്ഷിതാവ്, ഫോൺ', 'ബന്ധം', 'ജോലി, മേൽവിലാസം', 'ജനന തീയതി', 'ചേർന്ന ക്ലാസ്', 'ചേർന്ന തീയതി', 'അടയാളം', 'മുമ്പ് പഠിച്ച മദ്രസ/TC', 'മുൻ നമ്പർ', 'വിട്ട ക്ലാസ്', 'വിട്ട തീയതി', 'വിടാനുള്ള കാരണം', 'ചേരുന്ന മദ്രസ', 'കൊടുത്ത TC', 'സദറിൻ്റെ ഒപ്പ്', 'റിമാർക്സ്'];
+  const H = [
+    'ക്രമ നമ്പർ', 'പ്രവേശന നമ്പർ', 'പേര്, ഇനീഷ്യൽ',
+    'വീട്ടുപേര്', 'പിതാവ്/മാതാവ്', 'രക്ഷിതാവ്, ഫോൺ',
+    'ബന്ധം', 'ജോലി, മേൽവിലാസം', 'ജനന തീയതി',
+    'ചേർന്ന ക്ലാസ്', 'ചേർന്ന തീയതി', 'അടയാളം',
+    'മുമ്പ് പഠിച്ച മദ്രസ/TC', 'മുൻ നമ്പർ',
+    'വിട്ട ക്ലാസ്', 'വിട്ട തീയതി', 'വിടാനുള്ള കാരണം',
+    'ചേരുന്ന മദ്രസ', 'കൊടുത്ത TC', 'സദറിൻ്റെ ഒപ്പ്',
+    'റിമാർക്സ്'
+  ];
+
   const L = regList().sort((a, b) => a.no - b.no);
+
   const rows = L.map((s, idx) => {
-    const sSigCell = s.sadarSig ? `<div style="display:flex;align-items:center;justify-content:center;height:100%"><img src="${s.sadarSig}" alt="" style="max-height:50px;max-width:30px"></div>` : '';
+    const sSigCell = s.sadarSig
+      ? `<div class="adm-sign"><img src="${s.sadarSig}" alt=""></div>`
+      : '';
+
     return [
       idx + 1,
       s.no,
@@ -601,41 +615,270 @@ function reg() {
 
   const vStyle = `
     <style>
-      @page { size: landscape; margin: 8mm; }
-      .adm-v-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9.5px; color: #000; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #111 !important; padding: 3px 1px; text-align: center; vertical-align: middle; box-sizing: border-box; }
-      .adm-v-tbl th.adm-num-th { height: 24px; font-size: 9px; background: #f2f4f3 !important; font-weight: bold; }
-      .adm-v-tbl th.adm-rot-th { height: 155px; background: #eef1f0 !important; overflow: hidden; }
-      .adm-v-wrap { display: inline-flex; flex-direction: column; justify-content: center; align-items: center; transform: rotate(-90deg); transform-origin: center center; min-width: 140px; max-height: 36px; white-space: normal; word-break: break-word; font-size: 9px; line-height: 1.15; font-weight: bold; color: #000; }
-      .adm-cell-container { display: flex; align-items: center; justify-content: center; height: 115px; width: 100%; overflow: hidden; }
-      .adm-v-text { display: inline-flex; flex-direction: column; justify-content: center; align-items: center; transform: rotate(-90deg); transform-origin: center center; min-width: 105px; max-height: 36px; white-space: normal; word-break: break-all; font-size: 9px; line-height: 1.15; color: #000; }
-      .adm-row-tall { height: 115px; }
+      .adm-register {
+        width: 100%;
+        background: #fff;
+        color: #000;
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+
+      .adm-heading {
+        text-align: center;
+        margin-bottom: 10px;
+        line-height: 1.45;
+        color: #000;
+      }
+
+      .adm-v-tbl {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 9px;
+        color: #000;
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .adm-v-tbl th,
+      .adm-v-tbl td {
+        border: 1px solid #111 !important;
+        padding: 2px 1px;
+        text-align: center;
+        vertical-align: middle;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      /* Column number row */
+      .adm-v-tbl th.adm-num-th {
+        height: 22px;
+        font-size: 8.5px;
+        font-weight: bold;
+        background: #e9edeb !important;
+      }
+
+      /* Rotated heading row */
+      .adm-v-tbl th.adm-rot-th {
+        height: 150px;
+        padding: 0;
+        position: relative;
+        background: #eef1f0 !important;
+      }
+
+      .adm-head-inner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 140px;
+        max-height: 36px;
+        transform: translate(-50%, -50%) rotate(-90deg);
+        transform-origin: center center;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 8.8px;
+        font-weight: bold;
+        line-height: 1.15;
+        white-space: normal;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        text-align: center;
+        color: #000;
+      }
+
+      /* Data cells */
+      .adm-v-tbl td {
+        height: 118px;
+      }
+
+      .adm-cell-container {
+        position: relative;
+        width: 100%;
+        height: 112px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .adm-v-text {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 108px;
+        max-height: 36px;
+        transform: translate(-50%, -50%) rotate(-90deg);
+        transform-origin: center center;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        white-space: normal;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+
+        font-size: 9px;
+        line-height: 1.15;
+        font-weight: normal;
+        text-align: center;
+        color: #000;
+      }
+
+      .adm-sign {
+        width: 100%;
+        height: 110px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .adm-sign img {
+        max-height: 50px;
+        max-width: 30px;
+        object-fit: contain;
+      }
+
+      .adm-row-tall {
+        height: 118px;
+      }
+
+      .adm-v-tbl tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      @media screen {
+        .adm-register,
+        .adm-v-tbl {
+          min-width: 850px;
+        }
+      }
+
       @media print {
-        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-        .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #000 !important; }
+        @page {
+          size: A4 landscape;
+          margin: 8mm;
+        }
+
+        html, body {
+          margin: 0 !important;
+          padding: 0 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .adm-register {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+
+        .adm-v-tbl {
+          width: 100%;
+          table-layout: fixed;
+          font-size: 9px;
+        }
+
+        .adm-v-tbl th,
+        .adm-v-tbl td {
+          border: 1px solid #000 !important;
+        }
+
+        .adm-v-tbl th.adm-rot-th {
+          height: 150px;
+        }
+
+        .adm-v-tbl td,
+        .adm-row-tall {
+          height: 118px;
+        }
+
+        .adm-cell-container {
+          height: 112px;
+        }
+
+        .adm-heading {
+          margin-bottom: 8px;
+        }
       }
     </style>
   `;
 
-  const numRow = `<tr>${H.map((_, i) => `<th class="adm-num-th">${i + 1}</th>`).join('')}</tr>`;
-  const titleRow = `<tr>${H.map(h => `<th class="adm-rot-th"><span class="adm-v-wrap">${esc(h)}</span></th>`).join('')}</tr>`;
-  const thead = `<thead>${numRow}${titleRow}</thead>`;
-  const bodyHtml = `<tbody>${rows.map((r, ri) => {
-    const isLeft = !!L[ri].left;
-    return `<tr class="adm-row-tall" style="${isLeft ? 'opacity:.7;background:#f4f4f4' : ''}">${r.map((c, ci) => {
-      let content = '';
-      if (ci === 19) {
-        content = c;
-      } else {
-        content = `<div class="adm-cell-container"><span class="adm-v-text">${c ?? ''}</span></div>`;
-      }
-      return `<td>${content}</td>`;
-    }).join('')}</tr>`;
-  }).join('')}</tbody>`;
+  const numRow = `
+    <tr>
+      ${H.map((_, i) => `<th class="adm-num-th">${i + 1}</th>`).join('')}
+    </tr>
+  `;
 
-  const tbl = `${vStyle}<div style="text-align:center;margin-bottom:12px"><b style="font-size:16px">ISLAMIC EDUCATIONAL BOARD</b><br><b>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്</b><br><b style="font-size:15px">വിദ്യാർത്ഥി പ്രവേശന രജിസ്റ്റർ (ADMISSION REGISTER)</b> ${db.madrasa ? '– ' + esc(db.madrasa) : ''}</div><div style="overflow-x:auto"><table class="adm-v-tbl">${thead}${bodyHtml}</table></div>`;
+  const titleRow = `
+    <tr>
+      ${H.map(h => `
+        <th class="adm-rot-th">
+          <div class="adm-head-inner">${esc(h)}</div>
+        </th>
+      `).join('')}
+    </tr>
+  `;
+
+  const thead = `
+    <thead>
+      ${numRow}
+      ${titleRow}
+    </thead>
+  `;
+
+  const bodyHtml = `
+    <tbody>
+      ${rows.map((r, ri) => {
+        const isLeft = !!L[ri].left;
+        return `
+          <tr class="adm-row-tall" style="${isLeft ? 'opacity:.7;background:#f4f4f4' : ''}">
+            ${r.map((c, ci) => {
+              let content = '';
+              if (ci === 19) {
+                content = c;
+              } else {
+                content = `
+                  <div class="adm-cell-container">
+                    <span class="adm-v-text">${c ?? ''}</span>
+                  </div>
+                `;
+              }
+              return `<td>${content}</td>`;
+            }).join('')}
+          </tr>
+        `;
+      }).join('')}
+    </tbody>
+  `;
+
+  const tbl = `
+    ${vStyle}
+    <div class="adm-register">
+      <div class="adm-heading">
+        <b style="font-size:16px">ISLAMIC EDUCATIONAL BOARD</b><br>
+        <b>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്</b><br>
+        <b style="font-size:15px">വിദ്യാർത്ഥി പ്രവേശന രജിസ്റ്റർ (ADMISSION REGISTER)</b> ${db.madrasa ? '– ' + esc(db.madrasa) : ''}
+      </div>
+      <div style="overflow-x:auto">
+        <table class="adm-v-tbl">
+          ${thead}
+          ${bodyHtml}
+        </table>
+      </div>
+    </div>
+  `;
+
   window._reg = tbl;
-  $('#pg').innerHTML = `<p class="mu">സെല്ലുകൾക്ക് ആവശ്യത്തിന് ഉയരം നൽകി വിവരങ്ങൾ കൃത്യമായി ഒതുക്കി ക്രമീകരിച്ചിട്ടുണ്ട്.</p>${regF()}${btns('_reg', 'admission-register')}<div class="scroll card">${tbl}</div>`;
+  $('#pg').innerHTML = `<p class="mu">രജിസ്റ്റർ ലേഔട്ട് ക്രമീകരിച്ചിട്ടുണ്ട്.</p>${regF()}${btns('_reg', 'admission-register')}<div class="scroll card">${tbl}</div>`;
 }
 function attp() {
   const c = sel.cls, ms = sel.from, me = sel.to, days = rangeDays(ms, me), n = days.length, y = ms.slice(0, 4);
