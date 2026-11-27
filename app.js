@@ -601,15 +601,19 @@ function reg() {
 
   const vStyle = `
     <style>
-      .adm-v-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9.5px; color: #000; background: #fff; }
-      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #111; padding: 6px 3px; text-align: center; vertical-align: middle; box-sizing: border-box; }
-      .adm-v-tbl th.adm-num-th { height: 30px; font-size: 9px; background: #f2f4f3; font-weight: bold; }
-      .adm-v-tbl th.adm-rot-th { height: 140px; vertical-align: bottom; padding-bottom: 10px; background: #eef1f0; }
-      .adm-v-wrap { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; font-size: 9.5px; line-height: 1.2; font-weight: bold; max-height: 125px; }
-      .adm-cell-container { display: flex; align-items: center; justify-content: center; min-height: 80px; max-height: 120px; overflow: hidden; line-height: 1.3; font-size: 9px; }
+      @page { size: landscape; margin: 10mm; }
+      .adm-v-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 9px; color: #000; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #111 !important; padding: 5px 2px; text-align: center; vertical-align: middle; box-sizing: border-box; }
+      .adm-v-tbl th.adm-num-th { height: 26px; font-size: 8.5px; background: #f2f4f3 !important; font-weight: bold; }
+      .adm-v-tbl th.adm-rot-th { height: 130px; vertical-align: bottom; padding-bottom: 8px; background: #eef1f0 !important; }
+      .adm-v-wrap { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; font-size: 9px; line-height: 1.2; font-weight: bold; max-height: 118px; }
+      .adm-cell-container { display: flex; align-items: center; justify-content: center; min-height: 75px; max-height: 115px; overflow: hidden; line-height: 1.25; font-size: 8.5px; }
       .adm-v-text { writing-mode: vertical-rl; transform: rotate(180deg); width: 100%; text-align: right; }
-      .adm-sign-row { display: flex; justify-content: space-between; margin-top: 30px; font-size: 13px; font-weight: bold; color: #000; padding: 0 10px; }
-      .adm-row-tall { height: 90px; }
+      .adm-row-tall { height: 85px; }
+      @media print {
+        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .adm-v-tbl th, .adm-v-tbl td { border: 1px solid #000 !important; }
+      }
     </style>
   `;
 
@@ -629,9 +633,7 @@ function reg() {
     }).join('')}</tr>`;
   }).join('')}</tbody>`;
 
-  const signFooter = `<div class="adm-sign-row"><span>ക്ലാസ് മുഅല്ലിം: ................</span><span>സദർ മുഅല്ലിം: ................</span><span>മുഫത്തീശ്: ................</span></div>`;
-
-  const tbl = `${vStyle}<div style="text-align:center;margin-bottom:15px"><b style="font-size:16px">ISLAMIC EDUCATIONAL BOARD</b><br><b>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്</b><br><b style="font-size:15px">വിദ്യാർത്ഥി പ്രവേശന രജിസ്റ്റർ (ADMISSION REGISTER)</b> ${db.madrasa ? '– ' + esc(db.madrasa) : ''}</div><div style="overflow-x:auto"><table class="adm-v-tbl">${thead}${bodyHtml}</table></div>${signFooter}`;
+  const tbl = `${vStyle}<div style="text-align:center;margin-bottom:12px"><b style="font-size:16px">ISLAMIC EDUCATIONAL BOARD</b><br><b>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്</b><br><b style="font-size:15px">വിദ്യാർത്ഥി പ്രവേശന രജിസ്റ്റർ (ADMISSION REGISTER)</b> ${db.madrasa ? '– ' + esc(db.madrasa) : ''}</div><div style="overflow-x:auto"><table class="adm-v-tbl">${thead}${bodyHtml}</table></div>`;
   window._reg = tbl;
   $('#pg').innerHTML = `<p class="mu">സെല്ലുകൾക്ക് ആവശ്യത്തിന് ഉയരം നൽകി വിവരങ്ങൾ കൃത്യമായി ഒതുക്കി ക്രമീകരിച്ചിട്ടുണ്ട്.</p>${regF()}${btns('_reg', 'admission-register')}<div class="scroll card">${tbl}</div>`;
 }
