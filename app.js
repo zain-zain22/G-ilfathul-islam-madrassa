@@ -288,9 +288,7 @@ async function pdf(v, name, up) {
 const clsOn = (s, d) => { const h = s.hist; if (!h || !h.length) return s.classId; let c = h[0].c; for (const e of h) if (e.from <= d) c = e.c; return c; };
 const inC = (s, c, a, b) => clsOn(s, a) == c || clsOn(s, b) == c || (s.hist || []).some(e => e.c == c && e.from >= a && e.from <= b);
 let sub = { st: 'apps', te: 'mreg' };
-const clsOn = (s, d) => { const h = s.hist; if (!h || !h.length) return s.classId; let c = h[0].c; for (const e of h) if (e.from <= d) c = e.c; return c; };
-const inC = (s, c, a, b) => clsOn(s, a) == c || clsOn(s, b) == c || (s.hist || []).some(e => e.c == c && e.from >= a && e.from <= b);
-let sub = { st: 'apps', te: 'mreg' };
+
 
 function admin_() {
   const T = [['dash', '🏠 ഡാഷ്ബോർഡ്'], ['st', '👦 വിദ്യാർത്ഥികൾ'], ['te', '👳 അധ്യാപകർ'], ['set', '⚙️ ക്രമീകരണം']];
