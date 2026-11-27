@@ -631,7 +631,7 @@ function reg() {
   const vStyle = `
     <style>
       .adm-register {
-        width: 1176px;
+        width: 1056px;
         margin: 0 auto;
         background: #fff;
         color: #000;
@@ -646,7 +646,7 @@ function reg() {
         color: #000;
       }
       .adm-v-tbl {
-        width: 1176px;
+        width: 1056px;
         border-collapse: collapse;
         table-layout: fixed;
         font-size: 9px;
@@ -657,6 +657,7 @@ function reg() {
       .adm-v-tbl td {
         border: 1px solid #111 !important;
         padding: 0;
+        text-align: center;
         vertical-align: middle;
         box-sizing: border-box;
         overflow: hidden;
@@ -665,7 +666,6 @@ function reg() {
         height: 22px;
         font-size: 9px;
         font-weight: bold;
-        text-align: center;
         background: #e9edeb !important;
       }
       .adm-v-tbl th.adm-rot-th {
@@ -696,34 +696,26 @@ function reg() {
       }
       .adm-v-tbl td,
       .adm-row-tall {
-        height: 126px;
-      }
-      .adm-data-box {
-        display: block;
-        width: 100%;
-        height: 100%;
-        padding: 4px 2px;
-        box-sizing: border-box;
-        overflow: hidden;
+        height: 124px;
       }
       .adm-v-text {
         display: inline-block;
-        width: 118px;
+        width: 116px;
+        flex-shrink: 0;
         transform: rotate(-90deg);
         transform-origin: center center;
-        font-size: 8.8px;
+        font-size: 8.5px;
         font-weight: normal;
-        line-height: 1.2;
+        line-height: 1.15;
         white-space: normal;
         overflow-wrap: anywhere;
-        word-break: break-word;
-        text-align: left;
+        word-break: break-all;
+        text-align: center;
         color: #000;
-        margin-top: 44px;
       }
       .adm-sign {
         width: 100%;
-        height: 118px;
+        height: 116px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -754,7 +746,7 @@ function reg() {
     const isLeft = !!L[ri].left;
     return `<tr class="adm-row-tall" style="${isLeft ? 'opacity:.75;background:#f4f4f4' : ''}">${r.map((c, ci) => {
       if (ci === 19) return `<td>${c}</td>`;
-      return `<td><div class="adm-data-box"><span class="adm-v-text">${c ?? ''}</span></div></td>`;
+      return `<td><div class="adm-rot-box"><span class="adm-v-text">${c ?? ''}</span></div></td>`;
     }).join('')}</tr>`;
   }).join('')}</tbody>`;
 
