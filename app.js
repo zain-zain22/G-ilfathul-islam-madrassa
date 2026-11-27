@@ -581,6 +581,17 @@ function reg() {
     'റിമാർക്സ്'
   ];
 
+  // 21 കോളങ്ങൾക്കും ഉള്ളടക്കത്തിനനുസരിച്ചുള്ള കൃത്യമായ വീതി (ആകെ 100%)
+  const W = [
+    '3.2%', '3.8%', '6.8%',
+    '5.5%', '6.2%', '6.8%',
+    '3.8%', '7.5%', '4.5%',
+    '4.3%', '4.5%', '4.8%',
+    '5.5%', '3.5%', '4.2%',
+    '4.5%', '5.0%', '4.8%',
+    '3.5%', '3.8%', '3.5%'
+  ];
+
   const L = regList().sort((a, b) => a.no - b.no);
 
   const rows = L.map((s, idx) => {
@@ -588,294 +599,155 @@ function reg() {
       ? `<div class="adm-sign"><img src="${s.sadarSig}" alt=""></div>`
       : '';
 
+    const guardPhone = [esc(s.guardian || ''), s.phone ? 'Ph:' + esc(s.phone) : ''].filter(Boolean).join('<br>');
+
     return [
       idx + 1,
-      s.no,
-      s.name,
-      s.house,
-      s.parent || '',
-      (s.guardian || '') + (s.phone ? '<br>Ph:' + s.phone : ''),
-      s.rel,
-      s.job,
-      fmtD(s.dob),
-      cls((s.hist && s.hist[0] || { c: s.classId }).c).name,
-      fmtD(s.joined),
-      s.mark,
-      s.prev || '',
-      s.prevNo || '',
-      s.left?.cls || '',
-      fmtD(s.left?.date || ''),
-      s.left?.reason || '',
-      s.left?.to || '',
-      s.left?.tc || '',
+      esc(s.no),
+      esc(s.name),
+      esc(s.house),
+      esc(s.parent || ''),
+      guardPhone,
+      esc(s.rel),
+      esc(s.job),
+      esc(fmtD(s.dob)),
+      esc(cls((s.hist && s.hist[0] || { c: s.classId }).c).name),
+      esc(fmtD(s.joined)),
+      esc(s.mark),
+      esc(s.prev || ''),
+      esc(s.prevNo || ''),
+      esc(s.left?.cls || ''),
+      esc(fmtD(s.left?.date || '')),
+      esc(s.left?.reason || ''),
+      esc(s.left?.to || ''),
+      esc(s.left?.tc || ''),
       sSigCell,
-      s.left ? (s.left.how || 'വിടുതൽ ചെയ്തു') : ''
+      esc(s.left ? (s.left.how || 'വിടുതൽ ചെയ്തു') : '')
     ];
   });
 
   const vStyle = `
     <style>
       .adm-register {
-        width: 100%;
+        width: 1056px;
+        margin: 0 auto;
         background: #fff;
         color: #000;
         text-align: center;
-        font-family: Arial, sans-serif;
+        font-family: 'Noto Sans Malayalam', Arial, sans-serif;
+        box-sizing: border-box;
       }
-
       .adm-heading {
         text-align: center;
-        margin-bottom: 10px;
-        line-height: 1.45;
+        margin-bottom: 8px;
+        line-height: 1.4;
         color: #000;
       }
-
       .adm-v-tbl {
-        width: 100%;
+        width: 1056px;
         border-collapse: collapse;
         table-layout: fixed;
         font-size: 9px;
         color: #000;
         background: #fff;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
       }
-
       .adm-v-tbl th,
       .adm-v-tbl td {
         border: 1px solid #111 !important;
-        padding: 2px 1px;
+        padding: 0;
         text-align: center;
         vertical-align: middle;
         box-sizing: border-box;
         overflow: hidden;
       }
-
-      /* Column number row */
       .adm-v-tbl th.adm-num-th {
         height: 22px;
-        font-size: 8.5px;
+        font-size: 9px;
         font-weight: bold;
         background: #e9edeb !important;
       }
-
-      /* Rotated heading row */
       .adm-v-tbl th.adm-rot-th {
-        height: 150px;
-        padding: 0;
-        position: relative;
+        height: 145px;
         background: #eef1f0 !important;
       }
-
-      .adm-head-inner {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 140px;
-        max-height: 36px;
-        transform: translate(-50%, -50%) rotate(-90deg);
-        transform-origin: center center;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 8.8px;
-        font-weight: bold;
-        line-height: 1.15;
-        white-space: normal;
-        word-break: break-word;
-        overflow-wrap: anywhere;
-        text-align: center;
-        color: #000;
-      }
-
-      /* Data cells */
-      .adm-v-tbl td {
-        height: 118px;
-      }
-
-      .adm-cell-container {
-        position: relative;
+      .adm-rot-box {
         width: 100%;
-        height: 112px;
+        height: 100%;
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         overflow: hidden;
       }
-
-      .adm-v-text {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 108px;
-        max-height: 36px;
-        transform: translate(-50%, -50%) rotate(-90deg);
+      .adm-head-inner {
+        display: inline-block;
+        width: 136px;
+        flex-shrink: 0;
+        transform: rotate(-90deg);
         transform-origin: center center;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
+        font-size: 9px;
+        font-weight: bold;
+        line-height: 1.18;
         white-space: normal;
         word-break: break-word;
-        overflow-wrap: anywhere;
-
-        font-size: 9px;
-        line-height: 1.15;
-        font-weight: normal;
         text-align: center;
         color: #000;
       }
-
+      .adm-v-tbl td,
+      .adm-row-tall {
+        height: 120px;
+      }
+      .adm-v-text {
+        display: inline-block;
+        width: 112px;
+        flex-shrink: 0;
+        transform: rotate(-90deg);
+        transform-origin: center center;
+        font-size: 9px;
+        font-weight: normal;
+        line-height: 1.18;
+        white-space: normal;
+        word-break: break-word;
+        text-align: center;
+        color: #000;
+      }
       .adm-sign {
         width: 100%;
-        height: 110px;
+        height: 114px;
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow: hidden;
       }
-
       .adm-sign img {
         max-height: 50px;
-        max-width: 30px;
+        max-width: 32px;
         object-fit: contain;
       }
-
-      .adm-row-tall {
-        height: 118px;
-      }
-
       .adm-v-tbl tr {
         break-inside: avoid;
         page-break-inside: avoid;
       }
-
-      @media screen {
-        .adm-register,
-        .adm-v-tbl {
-          min-width: 850px;
-        }
-      }
-
       @media print {
-        @page {
-          size: A4 landscape;
-          margin: 8mm;
-        }
-
-        html, body {
-          margin: 0 !important;
-          padding: 0 !important;
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
-        }
-
-        .adm-register {
-          width: 100%;
-          margin: 0;
-          padding: 0;
-        }
-
-        .adm-v-tbl {
-          width: 100%;
-          table-layout: fixed;
-          font-size: 9px;
-        }
-
-        .adm-v-tbl th,
-        .adm-v-tbl td {
-          border: 1px solid #000 !important;
-        }
-
-        .adm-v-tbl th.adm-rot-th {
-          height: 150px;
-        }
-
-        .adm-v-tbl td,
-        .adm-row-tall {
-          height: 118px;
-        }
-
-        .adm-cell-container {
-          height: 112px;
-        }
-
-        .adm-heading {
-          margin-bottom: 8px;
-        }
+        @page { size: A4 landscape; margin: 6mm; }
+        .adm-register, .adm-v-tbl { width: 100% !important; }
+        .adm-v-tbl thead { display: table-header-group; }
       }
     </style>
   `;
 
-  const numRow = `
-    <tr>
-      ${H.map((_, i) => `<th class="adm-num-th">${i + 1}</th>`).join('')}
-    </tr>
-  `;
+  const colGroup = `<colgroup>${W.map(w => `<col style="width:${w}">`).join('')}</colgroup>`;
+  const numRow = `<tr>${H.map((_, i) => `<th class="adm-num-th">${i + 1}</th>`).join('')}</tr>`;
+  const titleRow = `<tr>${H.map(h => `<th class="adm-rot-th"><div class="adm-rot-box"><span class="adm-head-inner">${esc(h)}</span></div></th>`).join('')}</tr>`;
+  const thead = `<thead>${numRow}${titleRow}</thead>`;
 
-  const titleRow = `
-    <tr>
-      ${H.map(h => `
-        <th class="adm-rot-th">
-          <div class="adm-head-inner">${esc(h)}</div>
-        </th>
-      `).join('')}
-    </tr>
-  `;
+  const bodyHtml = `<tbody>${rows.map((r, ri) => {
+    const isLeft = !!L[ri].left;
+    return `<tr class="adm-row-tall" style="${isLeft ? 'opacity:.75;background:#f4f4f4' : ''}">${r.map((c, ci) => {
+      if (ci === 19) return `<td>${c}</td>`;
+      return `<td><div class="adm-rot-box"><span class="adm-v-text">${c ?? ''}</span></div></td>`;
+    }).join('')}</tr>`;
+  }).join('')}</tbody>`;
 
-  const thead = `
-    <thead>
-      ${numRow}
-      ${titleRow}
-    </thead>
-  `;
-
-  const bodyHtml = `
-    <tbody>
-      ${rows.map((r, ri) => {
-        const isLeft = !!L[ri].left;
-        return `
-          <tr class="adm-row-tall" style="${isLeft ? 'opacity:.7;background:#f4f4f4' : ''}">
-            ${r.map((c, ci) => {
-              let content = '';
-              if (ci === 19) {
-                content = c;
-              } else {
-                content = `
-                  <div class="adm-cell-container">
-                    <span class="adm-v-text">${c ?? ''}</span>
-                  </div>
-                `;
-              }
-              return `<td>${content}</td>`;
-            }).join('')}
-          </tr>
-        `;
-      }).join('')}
-    </tbody>
-  `;
-
-  const tbl = `
-    ${vStyle}
-    <div class="adm-register">
-      <div class="adm-heading">
-        <b style="font-size:16px">ISLAMIC EDUCATIONAL BOARD</b><br>
-        <b>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്</b><br>
-        <b style="font-size:15px">വിദ്യാർത്ഥി പ്രവേശന രജിസ്റ്റർ (ADMISSION REGISTER)</b> ${db.madrasa ? '– ' + esc(db.madrasa) : ''}
-      </div>
-      <div style="overflow-x:auto">
-        <table class="adm-v-tbl">
-          ${thead}
-          ${bodyHtml}
-        </table>
-      </div>
-    </div>
-  `;
+  const tbl = `${vStyle}<div class="adm-register"><div class="adm-heading"><b style="font-size:16px">ISLAMIC EDUCATIONAL BOARD</b><br><b>സമസ്ത കേരള സുന്നി വിദ്യാഭ്യാസ ബോർഡ്</b><br><b style="font-size:15px">വിദ്യാർത്ഥി പ്രവേശന രജിസ്റ്റർ (ADMISSION REGISTER)</b> ${db.madrasa ? '– ' + esc(db.madrasa) : ''}</div><table class="adm-v-tbl">${colGroup}${thead}${bodyHtml}</table></div>`;
 
   window._reg = tbl;
   $('#pg').innerHTML = `<p class="mu">രജിസ്റ്റർ ലേഔട്ട് ക്രമീകരിച്ചിട്ടുണ്ട്.</p>${regF()}${btns('_reg', 'admission-register')}<div class="scroll card">${tbl}</div>`;
