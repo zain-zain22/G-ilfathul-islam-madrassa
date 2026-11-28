@@ -651,6 +651,9 @@ function reg() {
         color: #000;
         background: #fff;
       }
+      .adm-v-tbl thead {
+        display: table-header-group;
+      }
       .adm-v-tbl th,
       .adm-v-tbl td {
         border: 1px solid #111 !important;
@@ -686,7 +689,7 @@ function reg() {
         transform-origin: center center;
         font-size: 9px;
         font-weight: bold;
-        line-height: 1.18;
+        line-height: 1.2;
         white-space: normal;
         word-break: break-word;
         text-align: center;
@@ -704,10 +707,10 @@ function reg() {
         transform-origin: center center;
         font-size: 8.5px;
         font-weight: normal;
-        line-height: 1.15;
+        line-height: 1.2;
         white-space: normal;
         overflow-wrap: anywhere;
-        word-break: break-all;
+        word-break: break-word;
         text-align: center;
         color: #000;
       }
