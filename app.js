@@ -570,7 +570,7 @@ function bonafideTab() {
     <div class="card">${html}</div>
   </div>`;
 }
-const $ = s => document.querySelector(s);
+
 async function api(action, data) {
   const r = await fetch(API_URL, {
     method: 'POST',
