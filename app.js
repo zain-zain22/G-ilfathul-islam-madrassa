@@ -10,7 +10,7 @@ async function api(action, data) {
 }
 
 
-const today = iso(new Date());
+
 
 const fmtD = d => {
   if (!d) return '';
