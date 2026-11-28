@@ -42,7 +42,7 @@ html, body {
   background: var(--bg);
   color: var(--tx);
   font-family: 'Noto Sans Malayalam', system-ui, sans-serif;
-  line-height: 1.65;
+  line-height: 1.6;
 }
 
 body {
@@ -253,64 +253,32 @@ input, select, textarea {
   overflow-x: auto;
 }
 
-/* രജിസ്റ്ററുകൾ: ക്രമ നമ്പർ ഒഴിവാക്കി, മലയാളം അക്ഷരങ്ങൾ മുറിയാതെ വ്യക്തമായി കാണാൻ */
+/* രജിസ്റ്ററുകൾ: കള്ളികൾ താഴോട്ട് വലുപ്പം കൂടും; അടുത്ത കള്ളിയിലേക്ക് പോകില്ല */
 table.reg-tbl {
   border-collapse: collapse;
-  font-size: 10.5px;
+  font-size: 10px;
   width: 100%;
   table-layout: fixed;
 }
 
-table.reg-tbl thead {
-  display: table-header-group;
-}
-
-table.reg-tbl tr {
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
-
 table.reg-tbl th,
 table.reg-tbl td {
-  border: 1px solid #222;
+  border: 1px solid #333;
   padding: 3px 2px;
   text-align: center;
   vertical-align: middle;
   white-space: normal;
-  word-break: normal;
-  overflow-wrap: break-word;
-  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  overflow: visible;
   height: auto;
-  line-height: 1.4;
+  line-height: 1.25;
 }
 
-/* ക്രമ നമ്പർ കോളം ഒഴിവാക്കിയതിനാൽ .sn മറയ്ക്കുന്നു */
 table.reg-tbl th.sn,
 table.reg-tbl td.sn {
-  display: none !important;
-}
-
-/* ജോലിക്ക് ചെറിയ കള്ളി, വീട്ടുപേര്/രക്ഷിതാവ്/മേൽവിലാസത്തിന് കൂടുതൽ വീതി */
-table.reg-tbl th.col-job,
-table.reg-tbl td.col-job {
-  width: 5%;
-  font-size: 9.5px;
-}
-
-table.reg-tbl th.col-house,
-table.reg-tbl td.col-house,
-table.reg-tbl th.col-parent,
-table.reg-tbl td.col-parent {
-  width: 8.5%;
-  font-size: 9.5px;
-  line-height: 1.35;
-}
-
-table.reg-tbl th.col-addr,
-table.reg-tbl td.col-addr {
-  width: 12%;
-  font-size: 9.5px;
-  line-height: 1.35;
+  width: 24px;
+  padding: 2px 1px;
 }
 
 .sig-cell {
@@ -326,7 +294,7 @@ table.reg-tbl td.col-addr {
   white-space: nowrap;
   font-size: 7.5px;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.05;
   padding: 2px 0;
 }
 
@@ -361,11 +329,6 @@ table.reg-tbl td.col-addr {
 }
 
 @media print {
-  @page {
-    size: A4 portrait;
-    margin: 5mm;
-  }
-
   #pdf_stage {
     display: none !important;
   }
@@ -376,7 +339,6 @@ table.reg-tbl td.col-addr {
     max-width: none !important;
     background: #ffffff;
     color: #000000;
-    line-height: 1.4;
   }
 
   body > *:not(#print) {
@@ -393,27 +355,24 @@ table.reg-tbl td.col-addr {
 
   #print.p-portrait table.reg-tbl {
     width: 100% !important;
-    table-layout: fixed;
-    font-size: 9.5px;
+    table-layout: auto;
+    font-size: 10px;
   }
 
   #print.p-landscape table.reg-tbl {
     width: 100% !important;
     table-layout: fixed;
-    font-size: 8.5px;
+    font-size: 8px;
   }
 
-  #print.p-portrait td,
-  #print.p-portrait th,
   #print.p-landscape td,
   #print.p-landscape th {
     white-space: normal;
-    word-break: normal;
-    overflow-wrap: break-word;
-    overflow: hidden;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    overflow: visible;
     padding: 2px 2px;
     height: auto;
-    line-height: 1.38;
   }
 
   #print.p-landscape .sig-tilt {
