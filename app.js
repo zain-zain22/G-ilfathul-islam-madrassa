@@ -658,6 +658,7 @@ function reg() {
         text-align: center;
         vertical-align: middle;
         box-sizing: border-box;
+        overflow: hidden;
       }
       .adm-v-tbl th.adm-num-th {
         height: 22px;
@@ -666,23 +667,20 @@ function reg() {
         background: #e9edeb !important;
       }
       .adm-v-tbl th.adm-rot-th {
-        min-height: 145px;
-        height: auto;
+        height: 145px;
         background: #eef1f0 !important;
       }
       .adm-rot-box {
         width: 100%;
-        min-height: 120px;
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 4px 1px;
-        box-sizing: border-box;
+        overflow: hidden;
       }
       .adm-head-inner {
         display: inline-block;
-        min-width: 132px;
+        width: 136px;
         flex-shrink: 0;
         transform: rotate(-90deg);
         transform-origin: center center;
@@ -691,34 +689,31 @@ function reg() {
         line-height: 1.18;
         white-space: normal;
         word-break: break-word;
-        overflow-wrap: break-word;
         text-align: center;
         color: #000;
       }
       .adm-v-tbl td,
       .adm-row-tall {
-        min-height: 124px;
-        height: auto;
+        height: 124px;
       }
       .adm-v-text {
         display: inline-block;
-        min-width: 112px;
-        max-width: 190px;
+        width: 116px;
         flex-shrink: 0;
         transform: rotate(-90deg);
         transform-origin: center center;
         font-size: 8.5px;
         font-weight: normal;
-        line-height: 1.18;
+        line-height: 1.15;
         white-space: normal;
-        overflow-wrap: break-word;
-        word-break: break-word;
+        overflow-wrap: anywhere;
+        word-break: break-all;
         text-align: center;
         color: #000;
       }
       .adm-sign {
         width: 100%;
-        min-height: 116px;
+        height: 116px;
         display: flex;
         justify-content: center;
         align-items: center;
