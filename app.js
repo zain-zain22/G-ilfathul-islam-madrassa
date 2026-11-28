@@ -9,7 +9,7 @@ async function api(action, data) {
   return j.data;
 }
 
-const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+
 const today = iso(new Date());
 
 const fmtD = d => {
