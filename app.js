@@ -1,4 +1,4 @@
-const $ = s => document.querySelector(s);
+<script>const $ = s => document.querySelector(s);
 async function api(action, data) {
   const r = await fetch(API_URL, {
     method: 'POST',
@@ -172,7 +172,7 @@ async function login(p) {
   if (!sel.callCls) sel.callCls = db.classes[0]?.id || '';
   $('#gate').style.display = 'none';
   $('#app').style.display = '';
-  if (db.madrasa) $('#ttl').textContent = db.madrasa;
+  if (db.madrasa) $('#ttl').textContent = db.madrasa + ' (Gemini Phase 2)';
   st('');
   go();
 }
@@ -317,7 +317,7 @@ function dash() {
     if (ks.length < 10) return;
     stuIn(c.id).forEach(s => { if (s.joined <= ks[0] && ks.every(d => db.att[c.id + '|' + d].absent.includes(s.no))) lng.push(s.no + '. ' + s.name + ' (' + c.name + ')'); });
   });
-  const lngH = lng.length ? '<h2>10 പ്രവൃത്തി ദിവസമായി വരാത്തവർ</h2><div class="card">' + lng.map(x => '<div class="row">' + esc(x) + '</div>').join('') + '<p class="mu">വിടുതൽ ചെയ്യേണ്ടതുണ്ടോ എന്ന് നോക്കുക (കുട്ടികൾ ടാബ്).</p></div>' : '';
+  const lngH = lng.length ? '<h2>10 പ്രവൃത്തി ദിവസമായി വരാത്തവർ</h2><div class="card">' + lng.map(x => '<div class="row">' + x + '</div>').join('') + '<p class="mu">വിടുതൽ ചെയ്യേണ്ടതുണ്ടോ എന്ന് നോക്കുക (കുട്ടികൾ ടാബ്).</p></div>' : '';
   const rows = db.classes.map(c => { const a = db.att[c.id + '|' + t], n = stuIn(c.id).length; return `<div class="row"><span>${esc(c.name)} · ${cls(c.id).sess == '1' ? 'സെക്ഷൻ 1' : 'സെക്ഷൻ 2'}</span><span>${a ? a.holiday ? 'അവധി: ' + esc(a.holiday) : (n - a.absent.length) + ' / ' + n + ' ഹാജർ' : '<i class="mu">ഇന്ന് ബാക്കി</i>'}</span></div>`; }).join('');
   $('#pg').innerHTML = `<div class="stat"><div><b>${db.students.filter(s => !s.left).length}</b>ആകെ കുട്ടികൾ</div><div><b>${db.apps.length}</b>പുതിയ അപേക്ഷ</div><div><b>${pend.length}</b>ഹാജർ ബാക്കിയുള്ള ക്ലാസ്</div></div><h2>ഇന്ന് (${fmtD(t)})</h2><div class="card">${rows || 'ക്ലാസുകളില്ല'}</div>${lngH}${pend.map(x => `<p class="warn">${esc(x.c.name)}: ${x.p.length} ദിവസം ബാക്കി</p>`).join('')}`;
 }
@@ -651,9 +651,6 @@ function reg() {
         color: #000;
         background: #fff;
       }
-      .adm-v-tbl thead {
-        display: table-header-group;
-      }
       .adm-v-tbl th,
       .adm-v-tbl td {
         border: 1px solid #111 !important;
@@ -689,7 +686,7 @@ function reg() {
         transform-origin: center center;
         font-size: 9px;
         font-weight: bold;
-        line-height: 1.2;
+        line-height: 1.18;
         white-space: normal;
         word-break: break-word;
         text-align: center;
@@ -707,10 +704,10 @@ function reg() {
         transform-origin: center center;
         font-size: 8.5px;
         font-weight: normal;
-        line-height: 1.2;
+        line-height: 1.15;
         white-space: normal;
         overflow-wrap: anywhere;
-        word-break: break-word;
+        word-break: break-all;
         text-align: center;
         color: #000;
       }
@@ -760,15 +757,14 @@ function attp() {
   const c = sel.cls, ms = sel.from, me = sel.to, days = rangeDays(ms, me), n = days.length, y = ms.slice(0, 4);
   if (!n || n > 31 || !c) { $('#pg').innerHTML = rng('attp') + '<p class="warn">1–31 ദിവസത്തെ തീയതി പരിധി തിരഞ്ഞെടുക്കുക.</p>'; return; }
   const sun = d => new Date(d + 'T00:00').getDay() == 0, rec = d => db.att[c + '|' + d];
-  const activeOn = (s, d) => s.joined <= d && clsOn(s, d) == c && (!s.left || !s.left.date || d <= s.left.date);
-  const stList = db.students.filter(s => inC(s, c, ms, me) && s.joined <= me && (!s.left || !s.left.date || s.left.date >= ms)).sort((a, b) => a.no - b.no);
+  const stList = db.students.filter(s => inC(s, c, ms, me) && s.joined <= me && (!s.left || s.left.date >= ms)).sort((a, b) => a.no - b.no);
   const yrStartBound = db.yearStart || (y + '-01-01');
   const keys = Object.keys(db.att).filter(k => k.startsWith(c + '|')).map(k => k.split('|')[1]).filter(d => d >= yrStartBound && d <= me && !db.att[c + '|' + d].holiday);
   const wM = keys.filter(d => d >= ms && d <= me).length, wP = keys.filter(d => d < ms).length, wT = wM + wP;
-  const pres = (s, fn) => keys.filter(d => fn(d) && activeOn(s, d) && !db.att[c + '|' + d].absent.includes(s.no)).length;
+  const pres = (s, fn) => keys.filter(d => fn(d) && s.joined <= d && clsOn(s, d) == c && !db.att[c + '|' + d].absent.includes(s.no)).length;
   const pm = stList.map(s => pres(s, d => d >= ms && d <= me)), pp = stList.map(s => pres(s, d => d < ms)), sum = a => a.reduce((x, y) => x + y, 0), PM = sum(pm), PP = sum(pp), PT = PM + PP;
   const avg = (p, w) => w ? (p / w).toFixed(1) : '-';
-  const op = db.students.filter(s => clsOn(s, ms) == c && s.joined < ms && (!s.left || !s.left.date || s.left.date >= ms)).length, nw = db.students.filter(s => clsOn(s, me) == c && s.joined >= ms && s.joined <= me).length, lf = db.students.filter(s => s.classId == c && s.left && s.left.date && s.left.date >= ms && s.left.date <= me).length;
+  const op = db.students.filter(s => clsOn(s, ms) == c && s.joined < ms && (!s.left || s.left.date >= ms)).length, nw = db.students.filter(s => clsOn(s, me) == c && s.joined >= ms && s.joined <= me).length, lf = db.students.filter(s => s.classId == c && s.left && s.left.date >= ms && s.left.date <= me).length;
   const N = n + 7;
 
   const attStyle = `
@@ -778,14 +774,14 @@ function attp() {
       .att-custom-tbl th.att-sn, .att-custom-tbl td.att-sn { width: 28px; min-width: 28px; }
       .att-custom-tbl th.att-adm, .att-custom-tbl td.att-adm { width: 34px; min-width: 34px; font-size: 8px; }
       .att-custom-tbl th.att-name, .att-custom-tbl td.att-name { width: 130px; min-width: 110px; text-align: left; padding-left: 6px; font-weight: 600; }
-      .att-custom-tbl td.att-sig-rot { height: 60px; width: 24px; min-width: 24px; padding: 2px 1px; overflow: hidden; }
-      .att-sig-inner { display: inline-block; transform: rotate(-90deg); transform-origin: center center; font-size: 8px; line-height: 1.1; white-space: nowrap; }
-      .att-sig-inner img { max-height: 22px; max-width: 54px; display: block; margin: 0 auto; }
+      .att-custom-tbl td.att-sig-rot { height: 60px; width: 22px; min-width: 22px; padding: 2px 1px; }
+      .att-sig-inner { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 8.5px; line-height: 1.1; max-height: 56px; }
+      .att-sig-inner img { max-height: 52px; max-width: 20px; display: block; margin: 0 auto; }
     </style>
   `;
 
-  const body = stList.map((s, i) => `<tr><td class="att-sn">${i + 1}</td><td class="att-adm">${s.no}</td><td class="att-name">${esc(s.name)}</td>${days.map(d => { const a = rec(d), act = activeOn(s, d); return `<td style="${sun(d) || a?.holiday ? 'background:#ddd' : ''}">${sun(d) || !a || a.holiday || !act ? '' : a.absent.includes(s.no) ? 'A' : '×'}</td>`; }).join('')}<td>${pm[i]}</td><td>${pp[i]}</td><td>${pm[i] + pp[i]}</td><td></td></tr>`).join('');
-  const tot = days.map(d => { const a = rec(d); return `<td>${a && !a.holiday ? stList.filter(s => activeOn(s, d)).length - a.absent.length : ''}</td>`; }).join('');
+  const body = stList.map((s, i) => `<tr><td class="att-sn">${i + 1}</td><td class="att-adm">${s.no}</td><td class="att-name">${esc(s.name)}</td>${days.map(d => { const a = rec(d); return `<td style="${sun(d) || a?.holiday ? 'background:#ddd' : ''}">${sun(d) || !a || a.holiday || s.joined > d || clsOn(s, d) != c ? '' : a.absent.includes(s.no) ? 'A' : '×'}</td>`; }).join('')}<td>${pm[i]}</td><td>${pp[i]}</td><td>${pm[i] + pp[i]}</td><td></td></tr>`).join('');
+  const tot = days.map(d => { const a = rec(d); return `<td>${a && !a.holiday ? stList.filter(s => s.joined <= d && clsOn(s, d) == c).length - a.absent.length : ''}</td>`; }).join('');
   const sg = days.map(d => {
     const a = rec(d);
     let content = '';
@@ -913,7 +909,7 @@ function saveSettings() {
   db.yearStart = newYs;
   db.vacationStart = val('m_vs');
   db.sadarId = $('#m_sadar').value;
-  if (db.madrasa) $('#ttl').textContent = db.madrasa;
+  if (db.madrasa) $('#ttl').textContent = db.madrasa + ' (Gemini Phase 2)';
   save();
   alert('സേവ് ചെയ്തു');
 }
@@ -972,7 +968,6 @@ function wd(s, a, b) {
   Object.keys(db.att).sort().forEach(k => {
     const [c, d] = k.split('|'), r = db.att[k];
     if (d < a || d > endBound || r.holiday || d < s.joined || clsOn(s, d) != c) return;
-    if (s.left && s.left.date && d > s.left.date) return;
     w++;
     if (!(r.absent || []).includes(s.no)) { p++; last = d; }
   });
@@ -1225,3 +1220,4 @@ function rs(file) {
 }
 const sp = sessionStorage.getItem('madrasa_pin');
 if (sp) login(sp);
+</script>
